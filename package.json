@@ -1,6 +1,6 @@
 {
   "name": "oyapicks-mcp",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "Prediction-market data as MCP tools. Pay-per-call in USDC on Base via x402. No API key, no account.",
   "type": "module",
   "bin": {
