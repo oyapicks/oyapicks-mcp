@@ -4,8 +4,18 @@
  *
  * Exposes prediction-market data endpoints as MCP tools, paid per call in
  * USDC on either rail:
- *   - Algorand mainnet (11 tools, via the GoPlausible facilitator)
- *   - Base mainnet     (10 tools, via Coinbase's facilitator)
+ *   - Algorand mainnet (via the GoPlausible facilitator)
+ *   - Base mainnet     (via Coinbase's facilitator)
+ * The live catalogue decides the tools. With every perps product switched off
+ * (2026-11-18) that is 11 products and 21 paid endpoints: 11 tools on Algorand
+ * and 10 on Base, because Alpha Book is sold on Algorand only.
+ *
+ * ⚠️ v0.3.1, 2026-11-18: THE ALGORAND RAIL COULD NOT START IN 0.3.0. This file
+ * imports `algosdk`, `@x402-avm/fetch` and `@x402-avm/avm` for the Algorand
+ * rail, and 0.3.0's package.json listed none of them, so `npx oyapicks-mcp`
+ * with OYAPICKS_ALGO_MNEMONIC set died at startup with "Cannot find package
+ * 'algosdk'". 0.3.1 lists all three. This file changed only its version and
+ * these comments; the payment code is untouched.
  *
  * The USER supplies their own funded wallet. Their wallet pays OyaPicks per
  * call. This package never sees an OyaPicks key.
@@ -25,8 +35,9 @@
  * price, both rail paths and the parameter; the hand-written tool copy below
  * stays, because an agent chooses a tool from its description.
  *
- * ⚠️ IF THE CATALOGUE CANNOT BE READ, this server falls back to the eleven
- * prediction-market products written out below and says so on stderr. The
+ * ⚠️ IF THE CATALOGUE CANNOT BE READ, this server falls back to the
+ * prediction-market products written out below (always on sale: 11 tools on
+ * Algorand, 10 on Base) and says so on stderr. The
  * fallback can only UNDER-offer, never over-offer: a product that needs the
  * live catalogue to appear is simply absent.
  *
@@ -42,7 +53,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const VERSION = "0.3.0";
+const VERSION = "0.3.1";
 const BASE_URL = (process.env.OYAPICKS_BASE_URL || "https://oyapicks.app").replace(/\/$/, "");
 
 // Ceiling per call, in USDC base units (6 decimals).

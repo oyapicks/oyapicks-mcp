@@ -1,7 +1,8 @@
 {
   "name": "oyapicks-mcp",
-  "version": "0.3.0",
-  "description": "Prediction-market data as MCP tools. Pay-per-call in USDC on Base via x402. No API key, no account.",
+  "version": "0.3.1",
+  "description": "Prediction-market data as MCP tools. Pay per call in USDC on Algorand or Base via x402. No API key, no account.",
+  "mcpName": "io.github.topdawgyq/oyapicks-mcp",
   "type": "module",
   "bin": {
     "oyapicks-mcp": "index.js"
@@ -17,10 +18,11 @@
     "mcp",
     "modelcontextprotocol",
     "x402",
+    "algorand",
+    "alpha-arcade",
     "base",
     "usdc",
     "prediction-markets",
-    "kalshi",
     "polymarket"
   ],
   "license": "MIT",
@@ -28,15 +30,18 @@
     "type": "git",
     "url": "git+https://github.com/oyapicks/oyapicks-mcp.git"
   },
-  "homepage": "https://oyapicks.app",
+  "homepage": "https://oyapicks.app/agents",
   "bugs": {
     "url": "https://github.com/oyapicks/oyapicks-mcp/issues"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
+    "@x402-avm/avm": "2.6.1",
+    "@x402-avm/fetch": "2.6.1",
     "@x402/core": "2.3.0",
     "@x402/evm": "2.9.0",
     "@x402/fetch": "2.9.0",
+    "algosdk": "3.6.0",
     "viem": "^2.39.0",
     "zod": "^3.23.8"
   }
