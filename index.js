@@ -10,6 +10,19 @@
  * (2026-11-18) that is 11 products and 21 paid endpoints: 11 tools on Algorand
  * and 10 on Base, because Alpha Book is sold on Algorand only.
  *
+ * ⚠️ v0.3.2, 2026-11-19: EVERY TOOL CALL FAILED IN 0.3.0 AND 0.3.1, AND THE
+ * LIBRARIES' SECURITY UPDATE.
+ *   - The tool handler built its URL from `path`, a variable that exists only
+ *     inside routeFor, so every call answered "path is not defined" before any
+ *     request was sent. Found by calling every tool from a clean install of the
+ *     published 0.3.1 against oyapicks.app (2026-11-19). Fixed: `route.path`.
+ *   - @modelcontextprotocol/sdk 1.30.0 -> 1.32.2, and its own dependencies moved
+ *     to their fixed versions (npm audit: 15 warnings -> 7). The six SDK
+ *     advisories are in its HTTP transports, OAuth client, task and bearer-auth
+ *     code, which this stdio server never loads.
+ * Nothing about payment changed: the rails, the $0.30 ceiling, the payTo
+ * allowlist and the guard hook are as they were.
+ *
  * ⚠️ v0.3.1, 2026-11-18: THE ALGORAND RAIL COULD NOT START IN 0.3.0. This file
  * imports `algosdk`, `@x402-avm/fetch` and `@x402-avm/avm` for the Algorand
  * rail, and 0.3.0's package.json listed none of them, so `npx oyapicks-mcp`
@@ -53,7 +66,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const VERSION = "0.3.1";
+const VERSION = "0.3.2";
 const BASE_URL = (process.env.OYAPICKS_BASE_URL || "https://oyapicks.app").replace(/\/$/, "");
 
 // Ceiling per call, in USDC base units (6 decimals).
@@ -474,7 +487,10 @@ function registerRoute(route) {
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (args) => {
-      const url = new URL(BASE_URL + path);
+      // ⚠️ v0.3.2: `route.path`. 0.3.0 and 0.3.1 read a bare `path`, which exists
+      // only inside routeFor, so EVERY tool call threw "path is not defined" before
+      // any request was sent: no tool returned data and none could be paid for.
+      const url = new URL(BASE_URL + route.path);
       for (const [k, v] of Object.entries(args ?? {})) {
         if (!local.has(k) && v !== undefined && v !== null) url.searchParams.set(k, String(v));
       }

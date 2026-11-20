@@ -1,6 +1,6 @@
 {
   "name": "oyapicks-mcp",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Prediction-market data as MCP tools. Pay per call in USDC on Algorand or Base via x402. No API key, no account.",
   "mcpName": "io.github.topdawgyq/oyapicks-mcp",
   "type": "module",
@@ -35,7 +35,7 @@
     "url": "https://github.com/oyapicks/oyapicks-mcp/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.30.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@x402-avm/avm": "2.6.1",
     "@x402-avm/fetch": "2.6.1",
     "@x402/core": "2.3.0",

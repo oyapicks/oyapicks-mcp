@@ -106,6 +106,10 @@ On Algorand, a call that fails on the server side is never settled, so it costs 
 
 ## Changes
 
+- **0.3.2**: every tool works again. In 0.3.0 and 0.3.1 every tool call failed with "path is not
+  defined" before anything was requested, so no tool returned data and nothing could be paid for.
+  Also a security update of the libraries (`@modelcontextprotocol/sdk` 1.32.2). No change to the
+  tools, the prices or how payment works.
 - **0.3.1**: the Algorand rail works from a fresh install. 0.3.0 did not list the Algorand
   payment libraries (`algosdk`, `@x402-avm/fetch`, `@x402-avm/avm`) as dependencies, so
   `npx oyapicks-mcp` with `OYAPICKS_ALGO_MNEMONIC` set stopped at startup with "Cannot find
